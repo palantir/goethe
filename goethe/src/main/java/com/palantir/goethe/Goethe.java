@@ -104,11 +104,15 @@ public final class Goethe {
      * @param baseDir Source set root where the formatted file will be written
      * @return the new file location
      */
-    public static Path formatAndEmit(JavaFile file, Path baseDir) throws IOException {
+    public static Path formatAndEmit(JavaFile file, Path baseDir) {
         String formatted = formatAsString(file);
-        Path output = getFilePath(file, baseDir);
-        Files.writeString(output, formatted);
-        return output;
+        try {
+            Path output = getFilePath(file, baseDir);
+            Files.writeString(output, formatted);
+            return output;
+        } catch (IOException e) {
+            throw new GoetheException("Failed to write formatted sources", e);
+        }
     }
 
     /**

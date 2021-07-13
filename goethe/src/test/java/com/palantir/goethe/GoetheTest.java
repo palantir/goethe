@@ -118,7 +118,7 @@ class GoetheTest {
     }
 
     @Test
-    public void testFormattingToDirectory() throws IOException {
+    public void testFormattingToDirectory() {
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")
