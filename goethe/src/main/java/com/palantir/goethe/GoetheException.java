@@ -17,7 +17,7 @@
 package com.palantir.goethe;
 
 /** Marker exception describing failures emitted from the Goethe library. */
-final class GoetheException extends IllegalStateException {
+public final class GoetheException extends IllegalStateException {
     GoetheException(String message, Throwable cause) {
         super(message, cause);
     }
