@@ -1,0 +1,13 @@
+apply plugin: 'com.palantir.external-publish-jar'
+apply plugin: 'com.palantir.shadow-jar'
+
+dependencies {
+    api 'com.squareup:javapoet'
+    // Avoid conflicts with formatters used elsewhere
+    shadeTransitively 'com.palantir.javaformat:palantir-java-format'
+    shadeTransitively 'com.palantir.javaformat:palantir-java-format-spi'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.assertj:assertj-core'
+    testImplementation 'org.mockito:mockito-core'
+}
