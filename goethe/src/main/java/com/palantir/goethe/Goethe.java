@@ -17,6 +17,7 @@
 package com.palantir.goethe;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.palantir.javaformat.java.Formatter;
@@ -24,8 +25,11 @@ import com.palantir.javaformat.java.FormatterDiagnostic;
 import com.palantir.javaformat.java.FormatterException;
 import com.palantir.javaformat.java.JavaFormatterOptions;
 import com.squareup.javapoet.JavaFile;
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
@@ -94,6 +98,20 @@ public final class Goethe {
     }
 
     /**
+     * Formats the given Java file and emits it to the appropriate directory under {@code baseDir}.
+     *
+     * @param file Javapoet file to format
+     * @param baseDir Source set root where the formatted file will be written
+     * @return the new file location
+     */
+    public static Path formatAndEmit(JavaFile file, Path baseDir) throws IOException {
+        String formatted = formatAsString(file);
+        Path output = getFilePath(file, baseDir);
+        Files.writeString(output, formatted);
+        return output;
+    }
+
+    /**
      * Attempt to provide as much actionable information as possible to understand why formatting is failing. This
      * is common when generated code is incorrect and cannot compile, so we mustn't make it difficult to understand
      * the problem.
@@ -128,6 +146,27 @@ public final class Goethe {
 
     private static String className(JavaFile file) {
         return file.packageName.isEmpty() ? file.typeSpec.name : file.packageName + "." + file.typeSpec.name;
+    }
+
+    /**
+     * Returns the full path for the given Java file and Java base dir. In a nutshell, turns packages into directories,
+     * e.g., {@code com.foo.bar.MyClass -> /<baseDir>/com/foo/bar/MyClass.java} and creates all directories.
+     * Implementation taken from JavaPoet's {@link JavaFile#writeTo(File)}.
+     */
+    private static Path getFilePath(JavaFile file, Path baseDir) throws IOException {
+        Preconditions.checkArgument(
+                Files.notExists(baseDir) || Files.isDirectory(baseDir),
+                "path %s exists but is not a directory.",
+                baseDir);
+        Path outputDirectory = baseDir;
+        if (!file.packageName.isEmpty()) {
+            for (String packageComponent : Splitter.on(".").split(file.packageName)) {
+                outputDirectory = outputDirectory.resolve(packageComponent);
+            }
+            Files.createDirectories(outputDirectory);
+        }
+
+        return outputDirectory.resolve(file.typeSpec.name + ".java");
     }
 
     private Goethe() {}

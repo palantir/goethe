@@ -27,13 +27,18 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Path;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 class GoetheTest {
+
+    @TempDir
+    Path tempDir;
 
     @Test
     public void testDiagnosticException() {
@@ -110,5 +115,22 @@ class GoetheTest {
                 .isNotEqualTo(javaFile.toString())
                 .as("Expected identical output to 'formatAsString'")
                 .isEqualTo(Goethe.formatAsString(javaFile));
+    }
+
+    @Test
+    public void testFormattingToDirectory() throws IOException {
+        JavaFile javaFile = JavaFile.builder(
+                        "com.palantir.foo",
+                        TypeSpec.classBuilder("Foo")
+                                .addStaticBlock(CodeBlock.builder()
+                                        .addStatement("$T.out.println($S)", System.class, Strings.repeat("a", 90))
+                                        .build())
+                                .build())
+                .build();
+        Path location = Goethe.formatAndEmit(javaFile, tempDir);
+        assertThat(location.toString()).endsWith("com/palantir/foo/Foo.java");
+        assertThat(location)
+                .as("Expected contents on disk to be formatted")
+                .hasContent(Goethe.formatAsString(javaFile));
     }
 }
