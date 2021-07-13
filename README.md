@@ -1,4 +1,4 @@
-Goethe
+[Goethe](https://en.wikipedia.org/wiki/Johann_Wolfgang_von_Goethe)
 ======
 
 Goethe is a code formatter library for [square/javapoet](https://github.com/square/javapoet) using
@@ -18,7 +18,7 @@ String formatted = Goethe.formatAsString(javaFile);
 
 Formatting a `JavaFile` while writing it to an annotation processing `Filer`:
 ```java
-Goethe.formatAndEmit(javaFile, filer)
+Goethe.formatAndEmit(javaFile, filer);
 ```
 
 Gradle Tasks

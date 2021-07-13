@@ -31,6 +31,15 @@ import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
 
+/**
+ * {@link Goethe} utility class provides clean formatting for generated sources.
+ * <pre>{@code
+ * // General purpose code-generation
+ * String formatted = Goethe.formatAsString(poetFile);
+ * // Annotation processing
+ * Goethe.formatAndEmit(poetFile, annotationProcessorFiler);
+ * }</pre>
+ */
 public final class Goethe {
 
     private static final Formatter JAVA_FORMATTER = Formatter.createFormatter(JavaFormatterOptions.builder()
