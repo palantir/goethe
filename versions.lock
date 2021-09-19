@@ -19,7 +19,7 @@ org.functionaljava:functionaljava:4.8 (1 constraints: 81129900)
 [Test dependencies]
 net.bytebuddy:byte-buddy:1.11.13 (1 constraints: 710ba7e9)
 net.bytebuddy:byte-buddy-agent:1.11.13 (1 constraints: 710ba7e9)
-org.assertj:assertj-core:3.20.2 (1 constraints: 39053b3b)
+org.assertj:assertj-core:3.21.0 (1 constraints: 38053c3b)
 org.junit:junit-bom:5.8.0 (6 constraints: 466257f9)
 org.junit.jupiter:junit-jupiter:5.8.0 (2 constraints: 220e3e59)
 org.junit.jupiter:junit-jupiter-api:5.8.0 (4 constraints: 83382e32)
