@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Goethe re-bootstraps itself for jdk16+ support
+  links:
+  - https://github.com/palantir/goethe/pull/53
