@@ -16,9 +16,8 @@
 
 package com.palantir.goethe;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
-import com.palantir.javaformat.java.Main;
-import com.squareup.javapoet.JavaFile;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -28,36 +27,35 @@ import java.nio.charset.StandardCharsets;
 
 final class BootstrappingFormatterFacade implements FormatterFacade {
 
+    private static final ImmutableList<String> EXPORTS = ImmutableList.of(
+            "--add-exports",
+            "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+            "--add-exports",
+            "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+            "--add-exports",
+            "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+            "--add-exports",
+            "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+            "--add-exports",
+            "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED");
+
     @Override
-    public String formatSource(JavaFile file) throws GoetheException {
+    public String formatSource(String className, String unformattedSource) throws GoetheException {
         try {
-            Process process = new ProcessBuilder(
-                            new File(System.getProperty("java.home"), "bin/java").getAbsolutePath(),
-                            // Exports
-                            "--add-exports",
-                            "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-                            "--add-exports",
-                            "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-                            "--add-exports",
-                            "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
-                            "--add-exports",
-                            "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-                            "--add-exports",
-                            "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
-                            // Classpath
-                            "-cp",
-                            System.getProperty("java.class.path"),
-                            // Main class
-                            Main.class.getName(),
-                            // Args
-                            "--palantir",
-                            "--skip-reflowing-long-strings",
-                            "-")
+            Process process = new ProcessBuilder(ImmutableList.<String>builder()
+                            .add(new File(System.getProperty("java.home"), "bin/java").getAbsolutePath())
+                            .addAll(EXPORTS)
+                            .add( // Classpath
+                                    "-cp",
+                                    System.getProperty("java.class.path"),
+                                    // Main class
+                                    GoetheMain.class.getName(),
+                                    // Args
+                                    className)
+                            .build())
                     .start();
-            StringBuilder rawSource = new StringBuilder();
-            file.writeTo(rawSource);
             try (OutputStream outputStream = process.getOutputStream()) {
-                outputStream.write(rawSource.toString().getBytes(StandardCharsets.UTF_8));
+                outputStream.write(unformattedSource.getBytes(StandardCharsets.UTF_8));
             }
             byte[] data;
             try (InputStream inputStream = process.getInputStream()) {
@@ -65,8 +63,9 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
             }
             int exitStatus = process.waitFor();
             if (exitStatus != 0) {
-                throw new GoetheException("Bootstrapped formatter exited non-zero: " + exitStatus + " with output:\n"
-                        + getErrorOutput(process));
+                throw new GoetheException(String.format(
+                        "Formatter exited non-zero (%d) formatting class %s:\n%s",
+                        exitStatus, className, getErrorOutput(process)));
             }
             return new String(data, StandardCharsets.UTF_8);
         } catch (IOException | InterruptedException e) {
@@ -78,8 +77,13 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (InputStream inputStream = process.getErrorStream()) {
             ByteStreams.copy(inputStream, baos);
-        } catch (IOException | RuntimeException ignored) {
-            // continue
+        } catch (IOException | RuntimeException e) {
+            String diagnostic = "<failed to read process stream: " + e + ">";
+            try {
+                baos.write(diagnostic.getBytes(StandardCharsets.UTF_8));
+            } catch (IOException ignored) {
+                // should not happen
+            }
         }
         return baos.toString(StandardCharsets.UTF_8);
     }

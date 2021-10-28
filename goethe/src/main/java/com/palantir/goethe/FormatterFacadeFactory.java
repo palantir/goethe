@@ -16,7 +16,14 @@
 
 package com.palantir.goethe;
 
-interface FormatterFacade {
+final class FormatterFacadeFactory {
+    private FormatterFacadeFactory() {}
 
-    String formatSource(String className, String unformattedSource) throws GoetheException;
+    static FormatterFacade create() {
+        if (Runtime.version().feature() < 16) {
+            return new DirectFormatterFacade();
+        }
+        // todo: check if args are present
+        return new BootstrappingFormatterFacade();
+    }
 }

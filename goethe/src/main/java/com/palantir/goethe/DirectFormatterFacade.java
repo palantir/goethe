@@ -23,8 +23,6 @@ import com.palantir.javaformat.java.Formatter;
 import com.palantir.javaformat.java.FormatterDiagnostic;
 import com.palantir.javaformat.java.FormatterException;
 import com.palantir.javaformat.java.JavaFormatterOptions;
-import com.squareup.javapoet.JavaFile;
-import java.io.IOException;
 import java.util.List;
 
 final class DirectFormatterFacade implements FormatterFacade {
@@ -34,15 +32,11 @@ final class DirectFormatterFacade implements FormatterFacade {
             .build());
 
     @Override
-    public String formatSource(JavaFile file) throws GoetheException {
-        StringBuilder rawSource = new StringBuilder();
+    public String formatSource(String className, String unformattedSource) throws GoetheException {
         try {
-            file.writeTo(rawSource);
-            return formatter.formatSource(rawSource.toString());
+            return formatter.formatSource(unformattedSource);
         } catch (FormatterException e) {
-            throw new GoetheException(generateMessage(file, rawSource.toString(), e.diagnostics()), e);
-        } catch (IOException e) {
-            throw new GoetheException("Formatting failed", e);
+            throw new GoetheException(generateMessage(className, unformattedSource, e.diagnostics()), e);
         }
     }
 
@@ -52,16 +46,11 @@ final class DirectFormatterFacade implements FormatterFacade {
      * the problem.
      */
     private static String generateMessage(
-            JavaFile file, String unformattedSource, List<FormatterDiagnostic> formatterDiagnostics) {
+            String className, String unformattedSource, List<FormatterDiagnostic> formatterDiagnostics) {
         try {
             List<String> lines = Splitter.on('\n').splitToList(unformattedSource);
             StringBuilder failureText = new StringBuilder();
-            failureText
-                    .append("Failed to format '")
-                    .append(file.packageName)
-                    .append('.')
-                    .append(file.typeSpec.name)
-                    .append("'\n");
+            failureText.append("Failed to format '").append(className).append("'\n");
             for (FormatterDiagnostic formatterDiagnostic : formatterDiagnostics) {
                 failureText
                         .append(formatterDiagnostic.message())

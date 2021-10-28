@@ -39,8 +39,7 @@ import javax.tools.JavaFileObject;
  */
 public final class Goethe {
 
-    private static final FormatterFacade JAVA_FORMATTER =
-            new BootstrappingFormatterFacade(); // new DirectFormatterFacade();
+    private static final FormatterFacade JAVA_FORMATTER = FormatterFacadeFactory.create();
 
     /**
      * Format a {@link JavaFile javapoet java file} into a {@link String}.
@@ -49,7 +48,13 @@ public final class Goethe {
      * @return Formatted source code
      */
     public static String formatAsString(JavaFile file) {
-        return JAVA_FORMATTER.formatSource(file);
+        StringBuilder rawSource = new StringBuilder();
+        try {
+            file.writeTo(rawSource);
+            return JAVA_FORMATTER.formatSource(file.packageName + '.' + file.typeSpec.name, rawSource.toString());
+        } catch (IOException e) {
+            throw new GoetheException("Formatting failed", e);
+        }
     }
 
     /**
