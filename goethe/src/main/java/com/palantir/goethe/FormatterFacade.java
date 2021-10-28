@@ -16,13 +16,9 @@
 
 package com.palantir.goethe;
 
-/** Marker exception describing failures emitted from the Goethe library. */
-public final class GoetheException extends IllegalStateException {
-    GoetheException(String message) {
-        super(message);
-    }
+import com.squareup.javapoet.JavaFile;
 
-    GoetheException(String message, Throwable cause) {
-        super(message, cause);
-    }
+interface FormatterFacade {
+
+    String formatSource(JavaFile file) throws GoetheException;
 }
