@@ -16,14 +16,21 @@
 
 package com.palantir.goethe;
 
+import java.lang.management.ManagementFactory;
+
 final class FormatterFacadeFactory {
     private FormatterFacadeFactory() {}
 
     static FormatterFacade create() {
-        if (Runtime.version().feature() < 16) {
+        if (Runtime.version().feature() < 16 || currentJvmHasExportArgs()) {
             return new DirectFormatterFacade();
         }
-        // todo: check if args are present
         return new BootstrappingFormatterFacade();
+    }
+
+    private static boolean currentJvmHasExportArgs() {
+        return ManagementFactory.getRuntimeMXBean()
+                .getInputArguments()
+                .containsAll(BootstrappingFormatterFacade.EXPORTS);
     }
 }

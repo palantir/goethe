@@ -25,9 +25,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
+/** A {@link FormatterFacade} implementation which spawns new java processes with {@link #EXPORTS} applied. */
 final class BootstrappingFormatterFacade implements FormatterFacade {
 
-    private static final ImmutableList<String> EXPORTS = ImmutableList.of(
+    static final ImmutableList<String> EXPORTS = ImmutableList.of(
             "--add-exports",
             "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
             "--add-exports",

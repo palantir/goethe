@@ -20,7 +20,11 @@ import com.google.common.io.ByteStreams;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/** Main class used internally to bootstrap the formatter with additional jvm args for compiler class access. */
+@SuppressWarnings({"checkstyle:BanSystemErr", "checkstyle:BanSystemOut"})
 final class GoetheMain {
+
+    private GoetheMain() {}
 
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
