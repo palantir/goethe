@@ -16,21 +16,14 @@
 
 package com.palantir.goethe;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
-import com.palantir.javaformat.java.Formatter;
-import com.palantir.javaformat.java.FormatterDiagnostic;
-import com.palantir.javaformat.java.FormatterException;
-import com.palantir.javaformat.java.JavaFormatterOptions;
 import com.squareup.javapoet.JavaFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
@@ -46,9 +39,7 @@ import javax.tools.JavaFileObject;
  */
 public final class Goethe {
 
-    private static final Formatter JAVA_FORMATTER = Formatter.createFormatter(JavaFormatterOptions.builder()
-            .style(JavaFormatterOptions.Style.PALANTIR)
-            .build());
+    private static final FormatterFacade JAVA_FORMATTER = FormatterFacadeFactory.create();
 
     /**
      * Format a {@link JavaFile javapoet java file} into a {@link String}.
@@ -60,9 +51,7 @@ public final class Goethe {
         StringBuilder rawSource = new StringBuilder();
         try {
             file.writeTo(rawSource);
-            return JAVA_FORMATTER.formatSource(rawSource.toString());
-        } catch (FormatterException e) {
-            throw new GoetheException(generateMessage(file, rawSource.toString(), e.diagnostics()), e);
+            return JAVA_FORMATTER.formatSource(file.packageName + '.' + file.typeSpec.name, rawSource.toString());
         } catch (IOException e) {
             throw new GoetheException("Formatting failed", e);
         }
@@ -112,39 +101,6 @@ public final class Goethe {
             return output;
         } catch (IOException e) {
             throw new GoetheException("Failed to write formatted sources", e);
-        }
-    }
-
-    /**
-     * Attempt to provide as much actionable information as possible to understand why formatting is failing. This
-     * is common when generated code is incorrect and cannot compile, so we mustn't make it difficult to understand
-     * the problem.
-     */
-    private static String generateMessage(
-            JavaFile file, String unformattedSource, List<FormatterDiagnostic> formatterDiagnostics) {
-        try {
-            List<String> lines = Splitter.on('\n').splitToList(unformattedSource);
-            StringBuilder failureText = new StringBuilder();
-            failureText
-                    .append("Failed to format '")
-                    .append(file.packageName)
-                    .append('.')
-                    .append(file.typeSpec.name)
-                    .append("'\n");
-            for (FormatterDiagnostic formatterDiagnostic : formatterDiagnostics) {
-                failureText
-                        .append(formatterDiagnostic.message())
-                        .append("\n")
-                        // Diagnostic values are one-indexed, while our list is zero-indexed.
-                        .append(lines.get(formatterDiagnostic.line() - 1))
-                        .append('\n')
-                        // Offset by two to convert from one-indexed to zero indexed values, and account for the caret.
-                        .append(Strings.repeat(" ", Math.max(0, formatterDiagnostic.column() - 2)))
-                        .append("^\n\n");
-            }
-            return CharMatcher.is('\n').trimFrom(failureText.toString());
-        } catch (RuntimeException e) {
-            return "Failed to format:\n" + unformattedSource;
         }
     }
 

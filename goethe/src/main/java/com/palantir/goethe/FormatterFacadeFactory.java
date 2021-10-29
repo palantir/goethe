@@ -16,13 +16,21 @@
 
 package com.palantir.goethe;
 
-/** Marker exception describing failures emitted from the Goethe library. */
-public final class GoetheException extends IllegalStateException {
-    GoetheException(String message) {
-        super(message);
+import java.lang.management.ManagementFactory;
+
+final class FormatterFacadeFactory {
+    private FormatterFacadeFactory() {}
+
+    static FormatterFacade create() {
+        if (Runtime.version().feature() < 16 || currentJvmHasExportArgs()) {
+            return new DirectFormatterFacade();
+        }
+        return new BootstrappingFormatterFacade();
     }
 
-    GoetheException(String message, Throwable cause) {
-        super(message, cause);
+    private static boolean currentJvmHasExportArgs() {
+        return ManagementFactory.getRuntimeMXBean()
+                .getInputArguments()
+                .containsAll(BootstrappingFormatterFacade.EXPORTS);
     }
 }
