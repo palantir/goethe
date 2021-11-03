@@ -28,17 +28,16 @@ import java.nio.charset.StandardCharsets;
 /** A {@link FormatterFacade} implementation which spawns new java processes with {@link #EXPORTS} applied. */
 final class BootstrappingFormatterFacade implements FormatterFacade {
 
-    static final ImmutableList<String> EXPORTS = ImmutableList.of(
-            "--add-exports",
-            "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-            "--add-exports",
-            "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-            "--add-exports",
-            "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
-            "--add-exports",
-            "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-            "--add-exports",
-            "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED");
+    static final ImmutableList<String> REQUIRED_EXPORTS = ImmutableList.of(
+            "jdk.compiler/com.sun.tools.javac.api",
+            "jdk.compiler/com.sun.tools.javac.file",
+            "jdk.compiler/com.sun.tools.javac.parser",
+            "jdk.compiler/com.sun.tools.javac.tree",
+            "jdk.compiler/com.sun.tools.javac.util");
+
+    static final ImmutableList<String> EXPORTS = REQUIRED_EXPORTS.stream()
+            .map(value -> String.format("--add-exports=%s=ALL-UNNAMED", value))
+            .collect(ImmutableList.toImmutableList());
 
     @Override
     public String formatSource(String className, String unformattedSource) throws GoetheException {

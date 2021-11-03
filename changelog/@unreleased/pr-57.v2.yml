@@ -1,0 +1,8 @@
+type: improvement
+improvement:
+  description: |-
+    Goethe add-exports check searches for both add-exports variations
+
+    With and without a joining '='
+  links:
+  - https://github.com/palantir/goethe/pull/57
