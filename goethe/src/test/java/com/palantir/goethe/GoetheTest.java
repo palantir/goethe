@@ -21,7 +21,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Strings;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
@@ -62,7 +61,7 @@ class GoetheTest {
 
     @Test
     public void testFormatting() {
-        String padding = Strings.repeat("a", 90);
+        String padding = "a".repeat(90);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")
@@ -90,7 +89,7 @@ class GoetheTest {
 
     @Test
     public void testFormattingToFiler() throws IOException {
-        String padding = Strings.repeat("a", 90);
+        String padding = "a".repeat(90);
         Element originatingElement = Mockito.mock(Element.class);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
@@ -123,7 +122,7 @@ class GoetheTest {
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")
                                 .addStaticBlock(CodeBlock.builder()
-                                        .addStatement("$T.out.println($S)", System.class, Strings.repeat("a", 90))
+                                        .addStatement("$T.out.println($S)", System.class, "a".repeat(90))
                                         .build())
                                 .build())
                 .build();
