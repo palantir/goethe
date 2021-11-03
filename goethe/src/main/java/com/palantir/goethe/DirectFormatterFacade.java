@@ -18,7 +18,6 @@ package com.palantir.goethe;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
 import com.palantir.javaformat.java.Formatter;
 import com.palantir.javaformat.java.FormatterDiagnostic;
 import com.palantir.javaformat.java.FormatterException;
@@ -59,7 +58,7 @@ final class DirectFormatterFacade implements FormatterFacade {
                         .append(lines.get(formatterDiagnostic.line() - 1))
                         .append('\n')
                         // Offset by two to convert from one-indexed to zero indexed values, and account for the caret.
-                        .append(Strings.repeat(" ", Math.max(0, formatterDiagnostic.column() - 2)))
+                        .append(" ".repeat(Math.max(0, formatterDiagnostic.column() - 2)))
                         .append("^\n\n");
             }
             return CharMatcher.is('\n').trimFrom(failureText.toString());

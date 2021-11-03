@@ -1,3 +1,5 @@
+import java.util.stream.Collectors
+
 apply plugin: 'com.palantir.external-publish-jar'
 apply plugin: 'com.palantir.shadow-jar'
 
@@ -10,4 +12,22 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.assertj:assertj-core'
     testImplementation 'org.mockito:mockito-core'
+}
+
+def exports = [
+        'jdk.compiler/com.sun.tools.javac.file',
+        'jdk.compiler/com.sun.tools.javac.main',
+        'jdk.compiler/com.sun.tools.javac.parser',
+        'jdk.compiler/com.sun.tools.javac.tree',
+        'jdk.compiler/com.sun.tools.javac.util',
+        'jdk.compiler/com.sun.tools.javac.code',
+        'jdk.compiler/com.sun.tools.javac.api'
+]
+
+// This block may be replaced by an update to the shadow-jar plugin which merges
+// manifest 'Add-Exports' values.
+jar {
+    manifest {
+        attributes('Add-Exports': exports.stream().collect(Collectors.joining(' ')))
+    }
 }

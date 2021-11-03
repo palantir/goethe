@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Add manifest entries for `Add-Exports`
+  links:
+  - https://github.com/palantir/goethe/pull/58
