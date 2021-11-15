@@ -1,5 +1,5 @@
 com.squareup:javapoet = 1.13.0
-com.palantir.javaformat:* = 2.6.0
+com.palantir.javaformat:* = 2.7.0
 com.google.guava:guava = 31.0.1-jre
 org.junit.jupiter:* = 5.8.1
 org.assertj:assertj-core = 3.21.0
