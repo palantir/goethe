@@ -19,6 +19,7 @@ apply plugin: 'com.palantir.baseline'
 apply plugin: 'com.palantir.baseline-circleci'
 apply plugin: 'com.palantir.git-version'
 apply plugin: 'com.palantir.consistent-versions'
+apply plugin: 'com.palantir.baseline-java-versions'
 
 version System.env.CIRCLE_TAG ?: gitVersion()
 
@@ -36,6 +37,9 @@ subprojects {
     apply plugin: 'java-library'
     apply plugin: 'com.palantir.baseline-class-uniqueness'
 
-    sourceCompatibility = 11
     tasks.check.dependsOn(javadoc)
+}
+
+javaVersions {
+    libraryTarget = 11
 }
