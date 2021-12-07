@@ -17,8 +17,8 @@
 package com.palantir.goethe;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
 import java.lang.management.ManagementFactory;
+import java.util.List;
 
 final class FormatterFacadeFactory {
     private FormatterFacadeFactory() {}
@@ -31,14 +31,14 @@ final class FormatterFacadeFactory {
     }
 
     private static boolean currentJvmHasExportArgs() {
-        ImmutableList<String> arguments =
-                ImmutableList.copyOf(ManagementFactory.getRuntimeMXBean().getInputArguments());
+        List<String> arguments =
+                List.copyOf(ManagementFactory.getRuntimeMXBean().getInputArguments());
         return BootstrappingFormatterFacade.REQUIRED_EXPORTS.stream()
                 .allMatch(required -> hasExport(arguments, required));
     }
 
     @VisibleForTesting
-    static boolean hasExport(ImmutableList<String> arguments, String moduleAndPackage) {
+    static boolean hasExport(List<String> arguments, String moduleAndPackage) {
         String singleArgAddExport = "--add-exports=" + moduleAndPackage + "=ALL-UNNAMED";
         String multiArgAddExport = moduleAndPackage + "=ALL-UNNAMED";
         for (int i = 0; i < arguments.size(); i++) {
