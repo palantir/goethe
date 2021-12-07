@@ -23,3 +23,10 @@ moduleJvmArgs {
             'jdk.compiler/com.sun.tools.javac.code',
             'jdk.compiler/com.sun.tools.javac.api'
 }
+
+// Use the shadow-jar to test goethe, otherwise bootstrapping works entirely different from 'prod'
+tasks.withType(Test).configureEach({ test ->
+    Task shadowJar = tasks.shadowJar
+    test.dependsOn(shadowJar)
+    test.setClasspath(shadowJar.outputs.files.plus(test.getClasspath()))
+})
