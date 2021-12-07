@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 
 /** A {@link FormatterFacade} implementation which spawns new java processes with {@link #EXPORTS} applied. */
@@ -47,7 +48,7 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
                             .addAll(EXPORTS)
                             .add( // Classpath
                                     "-cp",
-                                    System.getProperty("java.class.path"),
+                                    getClasspath(),
                                     // Main class
                                     GoetheMain.class.getName(),
                                     // Args
@@ -86,5 +87,21 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
             }
         }
         return baos.toString(StandardCharsets.UTF_8);
+    }
+
+    private static String getClasspath() {
+        return getPath(Goethe.class);
+    }
+
+    private static String getPath(Class<?> clazz) {
+        try {
+            return new File(clazz.getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .toURI())
+                    .getAbsolutePath();
+        } catch (URISyntaxException e) {
+            throw new GoetheException("Failed to locate the jar providing " + clazz, e);
+        }
     }
 }
