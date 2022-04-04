@@ -25,9 +25,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Semaphore;
 
 /** A {@link FormatterFacade} implementation which spawns new java processes with {@link #EXPORTS} applied. */
 final class BootstrappingFormatterFacade implements FormatterFacade {
+
+    private static final int MAX_PROCESSES = Runtime.getRuntime().availableProcessors() * 2;
+    private static final Semaphore MAX_PROCESS_SEMAPHORE = new Semaphore(MAX_PROCESSES);
 
     static final ImmutableList<String> REQUIRED_EXPORTS = ImmutableList.of(
             "jdk.compiler/com.sun.tools.javac.api",
@@ -42,6 +46,12 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
 
     @Override
     public String formatSource(String className, String unformattedSource) throws GoetheException {
+        try {
+            MAX_PROCESS_SEMAPHORE.acquire();
+        } catch (InterruptedException e) {
+            throw new GoetheException("Failed to acquire process semaphore", e);
+        }
+
         try {
             Process process = new ProcessBuilder(ImmutableList.<String>builder()
                             .add(new File(System.getProperty("java.home"), "bin/java").getAbsolutePath())
@@ -71,6 +81,8 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
             return new String(data, StandardCharsets.UTF_8);
         } catch (IOException | InterruptedException e) {
             throw new GoetheException("Failed to bootstrap jdk", e);
+        } finally {
+            MAX_PROCESS_SEMAPHORE.release();
         }
     }
 
