@@ -3,5 +3,5 @@ com.squareup:javapoet = 1.13.0
 com.palantir.javaformat:* = 2.28.0
 com.google.guava:guava = 31.1-jre
 org.junit.jupiter:* = 5.9.2
-org.assertj:assertj-core = 3.24.1
+org.assertj:assertj-core = 3.24.2
 org.mockito:* = 5.0.0
