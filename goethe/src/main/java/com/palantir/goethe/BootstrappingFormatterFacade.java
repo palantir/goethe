@@ -77,7 +77,7 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
     private static String getErrorOutput(Process process) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (InputStream inputStream = process.getErrorStream()) {
-            ByteStreams.copy(inputStream, baos);
+            inputStream.transferTo(baos);
         } catch (IOException | RuntimeException e) {
             String diagnostic = "<failed to read process stream: " + e + ">";
             try {
