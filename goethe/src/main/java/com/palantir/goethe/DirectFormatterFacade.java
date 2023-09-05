@@ -28,6 +28,7 @@ final class DirectFormatterFacade implements FormatterFacade {
 
     private final Formatter formatter = Formatter.createFormatter(JavaFormatterOptions.builder()
             .style(JavaFormatterOptions.Style.PALANTIR)
+            .formatJavadoc(true)
             .build());
 
     @Override
