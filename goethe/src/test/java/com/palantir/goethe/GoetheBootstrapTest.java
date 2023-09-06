@@ -66,12 +66,12 @@ class GoetheBootstrapTest {
     @ParameterizedTest
     @MethodSource("formatterFacades")
     public void testFormatting(FormatterFacade formatter) {
-        String padding = "a".repeat(90);
+        String longWord = "a".repeat(90);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")
                                 .addStaticBlock(CodeBlock.builder()
-                                        .addStatement("$T.out.println($S)", System.class, padding)
+                                        .addStatement("$T.out.println($S)", System.class, longWord)
                                         .build())
                                 .build())
                 .build();
@@ -87,8 +87,29 @@ class GoetheBootstrapTest {
                         + "class Foo {\n"
                         + "    static {\n"
                         + "        System.out.println(\n"
-                        + "                \"" + padding + "\");\n"
+                        + "                \"" + longWord + "\");\n"
                         + "    }\n"
                         + "}\n");
+    }
+
+    @ParameterizedTest
+    @MethodSource("formatterFacades")
+    public void testFormatJavadoc(FormatterFacade formatter) {
+        String longWord = "a".repeat(90);
+        JavaFile javaFile = JavaFile.builder(
+                        "com.palantir.foo",
+                        TypeSpec.classBuilder("Foo")
+                                .addJavadoc("$1L $1L", longWord)
+                                .build())
+                .build();
+
+        assertThat(format(formatter, javaFile))
+                .as("Formatting does not match the expected output, the expectation may need to be updated")
+                .isEqualTo("package com.palantir.foo;\n\n"
+                        + "/**\n"
+                        + " * " + longWord + "\n"
+                        + " * " + longWord + "\n"
+                        + " */\n"
+                        + "class Foo {}\n");
     }
 }
