@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Goethe now also formats Javadoc
+  links:
+  - https://github.com/palantir/goethe/pull/364
