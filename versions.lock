@@ -6,15 +6,15 @@ com.fasterxml.jackson.datatype:jackson-datatype-guava:2.15.2 (1 constraints: 861
 com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.2 (1 constraints: 0d132139)
 com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.2 (1 constraints: 0d132139)
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: 170aecb4)
-com.google.errorprone:error_prone_annotations:2.18.0 (1 constraints: 4d0a47bf)
+com.google.errorprone:error_prone_annotations:2.21.1 (1 constraints: 480a37bf)
 com.google.guava:failureaccess:1.0.1 (1 constraints: 140ae1b4)
-com.google.guava:guava:32.1.2-jre (4 constraints: 23495845)
+com.google.guava:guava:32.1.3-jre (4 constraints: 24491846)
 com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 constraints: bd17c918)
 com.google.j2objc:j2objc-annotations:2.8 (1 constraints: be09f5a0)
 com.palantir.javaformat:palantir-java-format:2.38.0 (1 constraints: 3f054f3b)
 com.palantir.javaformat:palantir-java-format-spi:2.38.0 (2 constraints: 4e18a28f)
 com.squareup:javapoet:1.13.0 (1 constraints: 3705323b)
-org.checkerframework:checker-qual:3.33.0 (1 constraints: 4b0a46bf)
+org.checkerframework:checker-qual:3.37.0 (1 constraints: 4f0a52bf)
 org.functionaljava:functionaljava:4.8 (1 constraints: 81129900)
 
 [Test dependencies]
