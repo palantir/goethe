@@ -13,6 +13,7 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 com.google.j2objc:j2objc-annotations:3.0.0 (1 constraints: 150aeab4)
 com.palantir.javaformat:palantir-java-format:2.43.0 (1 constraints: 3b05443b)
 com.palantir.javaformat:palantir-java-format-spi:2.43.0 (2 constraints: 4618b48e)
+com.palantir.javapoet:javapoet:0.1.0 (1 constraints: 0305ee35)
 com.squareup:javapoet:1.13.0 (1 constraints: 3705323b)
 org.checkerframework:checker-qual:3.42.0 (1 constraints: 4b0a47bf)
 org.functionaljava:functionaljava:4.8 (1 constraints: 81129900)

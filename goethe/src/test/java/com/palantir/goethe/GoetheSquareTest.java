@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
-class GoetheTest {
+class GoetheSquareTest {
 
     @TempDir
     Path tempDir;

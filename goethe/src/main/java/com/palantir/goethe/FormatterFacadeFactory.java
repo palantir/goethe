@@ -24,7 +24,7 @@ final class FormatterFacadeFactory {
     private FormatterFacadeFactory() {}
 
     static FormatterFacade create() {
-        if (Runtime.version().feature() < 16 || currentJvmHasExportArgs()) {
+        if (currentJvmHasExportArgs()) {
             return new DirectFormatterFacade();
         }
         return new BootstrappingFormatterFacade();
