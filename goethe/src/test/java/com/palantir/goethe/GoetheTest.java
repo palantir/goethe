@@ -17,6 +17,7 @@
 package com.palantir.goethe;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -35,6 +36,13 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 class GoetheTest {
+    private static final String UNICODE_WHITESPACE_CHARACTERS =
+            " \n\r\f\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u0008\t\u000B"
+                    + "\u000E\u000F\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001A\u001B"
+                    + "\u001C\u001D\u001E\u001F"
+                    + "\u0085\u00A0\u1680"
+                    + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009"
+                    + "\u200A\u2028\u2029\u202F\u205F\u3000";
 
     @TempDir
     Path tempDir;
@@ -127,6 +135,44 @@ class GoetheTest {
                                 .build())
                 .build();
         Path location = Goethe.formatAndEmit(javaFile, tempDir);
+        assertThat(location.toString()).endsWith("com/palantir/foo/Foo.java");
+        assertThat(location)
+                .as("Expected contents on disk to be formatted")
+                .hasContent(Goethe.formatAsString(javaFile));
+    }
+
+    @Test
+    public void testCodeBlockWithUnicodeWhitespaceChars() {
+        CodeBlock codeBlock = CodeBlock.builder()
+                .addStatement("$T.out.println($S)", System.class, UNICODE_WHITESPACE_CHARACTERS)
+                .build();
+        assertThat(codeBlock.toString()).isNotNull();
+    }
+
+    @Test
+    public void testJavaFileWithUnicodeWhitespaceChars() {
+        JavaFile javaFile = JavaFile.builder(
+                        "com.palantir.foo",
+                        TypeSpec.classBuilder("Foo")
+                                .addStaticBlock(CodeBlock.builder()
+                                        .addStatement("$T.out.println($S)", System.class, UNICODE_WHITESPACE_CHARACTERS)
+                                        .build())
+                                .build())
+                .build();
+        assertThatCode(javaFile::toString).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void testFormatAndEmitWithUnicodeWhitespaceChars() {
+        JavaFile javaFile = JavaFile.builder(
+                        "com.palantir.foo",
+                        TypeSpec.classBuilder("Foo")
+                                .addStaticBlock(CodeBlock.builder()
+                                        .addStatement("$T.out.println($S)", System.class, UNICODE_WHITESPACE_CHARACTERS)
+                                        .build())
+                                .build())
+                .build();
+        Path location = Goethe.formatAndEmit(javaFile, tempDir); // this should not fail but does :(
         assertThat(location.toString()).endsWith("com/palantir/foo/Foo.java");
         assertThat(location)
                 .as("Expected contents on disk to be formatted")
