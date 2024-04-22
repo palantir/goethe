@@ -1,0 +1,5 @@
+type: break
+break:
+  description: Support Palantir's JavaPoet fork. This library now requires Java 17.
+  links:
+  - https://github.com/palantir/goethe/pull/472

@@ -18,33 +18,29 @@ package com.palantir.goethe;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 import com.palantir.javapoet.CodeBlock;
 import com.palantir.javapoet.JavaFile;
 import com.palantir.javapoet.TypeSpec;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Path;
-import java.util.stream.Stream;
+import javax.annotation.processing.Filer;
+import javax.lang.model.element.Element;
+import javax.tools.JavaFileObject;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 
-class GoetheBootstrapTest {
+class GoethePalantirTest {
 
     @TempDir
     Path tempDir;
 
-    static Stream<FormatterFacade> formatterFacades() {
-        return Stream.of(new DirectFormatterFacade(), new BootstrappingFormatterFacade());
-    }
-
-    private static String format(FormatterFacade facade, JavaFile javaFile) {
-        return facade.formatSource(
-                javaFile.packageName() + '.' + javaFile.typeSpec().name(), javaFile.toString());
-    }
-
-    @ParameterizedTest
-    @MethodSource("formatterFacades")
-    public void testDiagnosticException(FormatterFacade formatter) {
+    @Test
+    public void testDiagnosticException() {
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")
@@ -53,8 +49,7 @@ class GoetheBootstrapTest {
                                         .build())
                                 .build())
                 .build();
-
-        assertThatThrownBy(() -> format(formatter, javaFile))
+        assertThatThrownBy(() -> Goethe.formatAsString(javaFile))
                 .isInstanceOf(GoetheException.class)
                 .hasMessageContaining("Failed to format 'com.palantir.foo.Foo'")
                 .hasMessageContaining("';' expected")
@@ -64,20 +59,19 @@ class GoetheBootstrapTest {
                                 + "            ^");
     }
 
-    @ParameterizedTest
-    @MethodSource("formatterFacades")
-    public void testFormatting(FormatterFacade formatter) {
-        String longWord = "a".repeat(90);
+    @Test
+    public void testFormatting() {
+        String padding = "a".repeat(90);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")
                                 .addStaticBlock(CodeBlock.builder()
-                                        .addStatement("$T.out.println($S)", System.class, longWord)
+                                        .addStatement("$T.out.println($S)", System.class, padding)
                                         .build())
                                 .build())
                 .build();
         String raw = javaFile.toString();
-        String formatted = format(formatter, javaFile);
+        String formatted = Goethe.formatAsString(javaFile);
         assertThat(formatted)
                 .as("Expected the formatted output to differ from original")
                 .isNotEqualTo(raw)
@@ -88,29 +82,54 @@ class GoetheBootstrapTest {
                         + "class Foo {\n"
                         + "    static {\n"
                         + "        System.out.println(\n"
-                        + "                \"" + longWord + "\");\n"
+                        + "                \"" + padding + "\");\n"
                         + "    }\n"
                         + "}\n");
     }
 
-    @ParameterizedTest
-    @MethodSource("formatterFacades")
-    public void testFormatJavadoc(FormatterFacade formatter) {
-        String longWord = "a".repeat(90);
+    @Test
+    public void testFormattingToFiler() throws IOException {
+        String padding = "a".repeat(90);
+        Element originatingElement = Mockito.mock(Element.class);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")
-                                .addJavadoc("$1L $1L", longWord)
+                                .addStaticBlock(CodeBlock.builder()
+                                        .addStatement("$T.out.println($S)", System.class, padding)
+                                        .build())
+                                .addOriginatingElement(originatingElement)
                                 .build())
                 .build();
+        StringWriter writer = new StringWriter();
+        JavaFileObject javaFileObject = Mockito.mock(JavaFileObject.class);
+        when(javaFileObject.openWriter()).thenReturn(writer);
+        Filer filer = Mockito.mock(Filer.class);
+        // If the originating elements aren't passed through to the Filer, this test will fail with:
+        // 'Cannot invoke "javax.tools.JavaFileObject.openWriter()" because "filerSourceFile" is null'
+        when(filer.createSourceFile(eq("com.palantir.foo.Foo"), eq(originatingElement)))
+                .thenReturn(javaFileObject);
+        Goethe.formatAndEmit(javaFile, filer);
+        assertThat(writer.toString())
+                .as("Expected the formatted output to differ from original")
+                .isNotEqualTo(javaFile.toString())
+                .as("Expected identical output to 'formatAsString'")
+                .isEqualTo(Goethe.formatAsString(javaFile));
+    }
 
-        assertThat(format(formatter, javaFile))
-                .as("Formatting does not match the expected output, the expectation may need to be updated")
-                .isEqualTo("package com.palantir.foo;\n\n"
-                        + "/**\n"
-                        + " * " + longWord + "\n"
-                        + " * " + longWord + "\n"
-                        + " */\n"
-                        + "class Foo {}\n");
+    @Test
+    public void testFormattingToDirectory() {
+        JavaFile javaFile = JavaFile.builder(
+                        "com.palantir.foo",
+                        TypeSpec.classBuilder("Foo")
+                                .addStaticBlock(CodeBlock.builder()
+                                        .addStatement("$T.out.println($S)", System.class, "a".repeat(90))
+                                        .build())
+                                .build())
+                .build();
+        Path location = Goethe.formatAndEmit(javaFile, tempDir);
+        assertThat(location.toString()).endsWith("com/palantir/foo/Foo.java");
+        assertThat(location)
+                .as("Expected contents on disk to be formatted")
+                .hasContent(Goethe.formatAsString(javaFile));
     }
 }
