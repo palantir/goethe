@@ -8,7 +8,7 @@ com.fasterxml.jackson.module:jackson-module-parameter-names:2.16.1 (1 constraint
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: 170aecb4)
 com.google.errorprone:error_prone_annotations:2.26.1 (1 constraints: 4d0a46bf)
 com.google.guava:failureaccess:1.0.2 (1 constraints: 150ae2b4)
-com.google.guava:guava:33.2.0-jre (4 constraints: bd48e5da)
+com.google.guava:guava:33.2.1-jre (4 constraints: be48a3db)
 com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 constraints: bd17c918)
 com.google.j2objc:j2objc-annotations:3.0.0 (1 constraints: 150aeab4)
 com.palantir.javaformat:palantir-java-format:2.47.0 (1 constraints: 3f05503b)
