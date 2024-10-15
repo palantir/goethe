@@ -5,4 +5,4 @@ com.palantir.javaformat:* = 2.50.0
 com.google.guava:guava = 33.3.1-jre
 org.junit.jupiter:* = 5.11.2
 org.assertj:assertj-core = 3.26.3
-org.mockito:* = 5.14.1
+org.mockito:* = 5.14.2
