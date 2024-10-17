@@ -1,4 +1,4 @@
-com.fasterxml.jackson.core:jackson-databind = 2.17.2
+com.fasterxml.jackson.core:jackson-databind = 2.18.0
 com.squareup:javapoet = 1.13.0
 com.palantir.javapoet:javapoet = 0.1.0
 com.palantir.javaformat:* = 2.50.0
