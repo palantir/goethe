@@ -19,10 +19,10 @@ org.checkerframework:checker-qual:3.43.0 (1 constraints: 4c0a4abf)
 org.functionaljava:functionaljava:4.8 (1 constraints: 81129900)
 
 [Test dependencies]
-net.bytebuddy:byte-buddy:1.15.4 (2 constraints: c916c650)
+net.bytebuddy:byte-buddy:1.15.11 (2 constraints: c316f74f)
 net.bytebuddy:byte-buddy-agent:1.15.4 (1 constraints: 450b45de)
 org.apiguardian:apiguardian-api:1.1.2 (5 constraints: 105480ac)
-org.assertj:assertj-core:3.26.3 (1 constraints: 40054e3b)
+org.assertj:assertj-core:3.27.0 (1 constraints: 3e054e3b)
 org.junit.jupiter:junit-jupiter:5.11.4 (1 constraints: 3d05483b)
 org.junit.jupiter:junit-jupiter-api:5.11.4 (3 constraints: fa2fcd52)
 org.junit.jupiter:junit-jupiter-engine:5.11.4 (1 constraints: 380e044a)
