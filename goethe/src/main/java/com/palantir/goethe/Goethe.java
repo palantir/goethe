@@ -73,6 +73,17 @@ public final class Goethe {
     }
 
     /**
+     * Format a {@link String} containing a full java file, and return the result as a {@link String}.
+     *
+     * @param className The class name of the java file, including package, eg {@code com.palantir.goethe.Goethe}
+     * @param source The java source code to format
+     * @return The formatted source code
+     */
+    public static String formatAsString(String className, String source) {
+        return JAVA_FORMATTER.formatSource(className, source);
+    }
+
+    /**
      * Format a {@link com.palantir.javapoet.JavaFile javapoet java file} and write the result to an {@link Filer annotation processing
      * filer}.
      *
@@ -136,6 +147,34 @@ public final class Goethe {
     }
 
     /**
+     * Format a {@link String} containing a full java file, and write the result to an {@link Filer annotation
+     * processing filer}.
+     *
+     * @param className The class name of the java file, including package, eg {@code com.palantir.goethe.Goethe}
+     * @param source The java source code to format
+     */
+    public static void formatAndEmit(String className, String source, Filer filer) {
+        String formatted = formatAsString(className, source);
+
+        JavaFileObject filerSourceFile = null;
+        try {
+            filerSourceFile = filer.createSourceFile(className);
+            try (Writer writer = filerSourceFile.openWriter()) {
+                writer.write(formatted);
+            }
+        } catch (IOException e) {
+            if (filerSourceFile != null) {
+                try {
+                    filerSourceFile.delete();
+                } catch (Exception deletionFailure) {
+                    e.addSuppressed(deletionFailure);
+                }
+            }
+            throw new GoetheException("Failed to write formatted code to the filer", e);
+        }
+    }
+
+    /**
      * Formats the given Java file and emits it to the appropriate directory under {@code baseDir}.
      *
      * @param file Javapoet file to format
@@ -165,6 +204,34 @@ public final class Goethe {
         String formatted = formatAsString(file);
         try {
             Path output = getFilePath(baseDir, file.packageName, file.typeSpec.name);
+            Files.writeString(output, formatted);
+            return output;
+        } catch (IOException e) {
+            throw new GoetheException("Failed to write formatted sources", e);
+        }
+    }
+
+    /**
+     * Formats the given Java file and emits it to the appropriate directory under {@code baseDir}.
+     *
+     * @param fullClassName The class name of the java file, including package, eg {@code com.palantir.goethe.Goethe}
+     * @param source The java source code to format
+     * @param baseDir Source set root where the formatted file will be written
+     * @return the new file location
+     */
+    public static Path formatAndEmit(String fullClassName, String source, Path baseDir) {
+        String formatted = formatAsString(fullClassName, source);
+        try {
+            String packageName;
+            String className;
+            if (fullClassName.contains(".")) {
+                packageName = fullClassName.substring(0, fullClassName.lastIndexOf('.'));
+                className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+            } else {
+                packageName = "";
+                className = fullClassName;
+            }
+            Path output = getFilePath(baseDir, packageName, className);
             Files.writeString(output, formatted);
             return output;
         } catch (IOException e) {
