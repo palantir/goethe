@@ -16,7 +16,7 @@
 
 package com.palantir.goethe;
 
-import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
@@ -234,16 +234,23 @@ public final class Goethe {
      * e.g., {@code com.foo.bar.MyClass -> /<baseDir>/com/foo/bar/MyClass.java} and creates all directories.
      */
     private static Path getFilePath(Path baseDir, String packageName, String typeName) throws IOException {
-        String fullyQualifiedTypeName = packageName.isEmpty() ? typeName : packageName + '.' + typeName;
-        return getFilePath(baseDir, fullyQualifiedTypeName);
+        Path outputFile = baseDir;
+        for (String component : Splitter.on('.').split(packageName)) {
+            outputFile = outputFile.resolve(component);
+        }
+        outputFile = outputFile.resolve(typeName + ".java");
+
+        Files.createDirectories(outputFile.getParent());
+        return outputFile;
     }
 
-    private static Path getFilePath(Path baseDir, String fullyQualifiedTypeName) throws IOException {
-        Preconditions.checkArgument(
-                Files.notExists(baseDir) || Files.isDirectory(baseDir),
-                "path %s exists but is not a directory.",
-                baseDir);
-        Path outputFile = baseDir.resolve(fullyQualifiedTypeName.replace('.', '/') + ".java");
+    private static Path getFilePath(Path baseDir, String className) throws IOException {
+        Path outputFile = baseDir;
+        for (String component : Splitter.on('.').split(className)) {
+            outputFile = outputFile.resolve(component);
+        }
+        outputFile = outputFile.resolveSibling(outputFile.getFileName() + ".java");
+
         Files.createDirectories(outputFile.getParent());
         return outputFile;
     }
