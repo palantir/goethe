@@ -16,7 +16,6 @@
 
 package com.palantir.goethe;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import java.io.IOException;
 import java.io.Writer;
@@ -70,6 +69,17 @@ public final class Goethe {
         } catch (IOException e) {
             throw new GoetheException("Formatting failed", e);
         }
+    }
+
+    /**
+     * Format a {@link String} containing a full java file, and return the result as a {@link String}.
+     *
+     * @param className The fully qualified class name of the java file, eg. {@code com.palantir.goethe.Goethe}
+     * @param source The java source code to format
+     * @return The formatted source code
+     */
+    public static String formatAsString(String className, String source) {
+        return JAVA_FORMATTER.formatSource(className, source);
     }
 
     /**
@@ -136,6 +146,34 @@ public final class Goethe {
     }
 
     /**
+     * Format a {@link String} containing a full java file, and write the result to an {@link Filer annotation
+     * processing filer}.
+     *
+     * @param className The fully qualified class name of the java file, eg. {@code com.palantir.goethe.Goethe}
+     * @param source The java source code to format
+     */
+    public static void formatAndEmit(String className, String source, Filer filer) {
+        String formatted = formatAsString(className, source);
+
+        JavaFileObject filerSourceFile = null;
+        try {
+            filerSourceFile = filer.createSourceFile(className);
+            try (Writer writer = filerSourceFile.openWriter()) {
+                writer.write(formatted);
+            }
+        } catch (IOException e) {
+            if (filerSourceFile != null) {
+                try {
+                    filerSourceFile.delete();
+                } catch (Exception deletionFailure) {
+                    e.addSuppressed(deletionFailure);
+                }
+            }
+            throw new GoetheException("Failed to write formatted code to the filer", e);
+        }
+    }
+
+    /**
      * Formats the given Java file and emits it to the appropriate directory under {@code baseDir}.
      *
      * @param file Javapoet file to format
@@ -173,23 +211,48 @@ public final class Goethe {
     }
 
     /**
+     * Formats the given Java file and emits it to the appropriate directory under {@code baseDir}.
+     *
+     * @param className The class name of the java file, including package, eg {@code com.palantir.goethe.Goethe}
+     * @param source The java source code to format
+     * @param baseDir Source set root where the formatted file will be written
+     * @return the new file location
+     */
+    public static Path formatAndEmit(String className, String source, Path baseDir) {
+        String formatted = formatAsString(className, source);
+        try {
+            Path output = getFilePath(baseDir, className);
+            Files.writeString(output, formatted);
+            return output;
+        } catch (IOException e) {
+            throw new GoetheException("Failed to write formatted sources", e);
+        }
+    }
+
+    /**
      * Returns the full path for the given Java file and Java base dir. In a nutshell, turns packages into directories,
      * e.g., {@code com.foo.bar.MyClass -> /<baseDir>/com/foo/bar/MyClass.java} and creates all directories.
      */
     private static Path getFilePath(Path baseDir, String packageName, String typeName) throws IOException {
-        Preconditions.checkArgument(
-                Files.notExists(baseDir) || Files.isDirectory(baseDir),
-                "path %s exists but is not a directory.",
-                baseDir);
-        Path outputDirectory = baseDir;
-        if (!packageName.isEmpty()) {
-            for (String packageComponent : Splitter.on(".").split(packageName)) {
-                outputDirectory = outputDirectory.resolve(packageComponent);
-            }
-            Files.createDirectories(outputDirectory);
+        Path outputFile = baseDir;
+        for (String component : Splitter.on('.').split(packageName)) {
+            outputFile = outputFile.resolve(component);
         }
+        outputFile = outputFile.resolve(typeName + ".java");
 
-        return outputDirectory.resolve(typeName + ".java");
+        Files.createDirectories(outputFile.getParent());
+        return outputFile;
+    }
+
+    private static Path getFilePath(Path baseDir, String className) throws IOException {
+        Path outputFile = baseDir;
+        for (String component : Splitter.on('.').split(className)) {
+            outputFile = outputFile.resolve(component);
+        }
+        outputFile = outputFile.resolveSibling(outputFile.getFileName() + ".java");
+
+        Files.createDirectories(outputFile.getParent());
+        return outputFile;
     }
 
     private Goethe() {}

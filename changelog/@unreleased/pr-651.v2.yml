@@ -1,0 +1,5 @@
+type: feature
+feature:
+  description: Support formatting string values as well as javapoet
+  links:
+  - https://github.com/palantir/goethe/pull/651
