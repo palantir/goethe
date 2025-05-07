@@ -1,7 +1,7 @@
 com.fasterxml.jackson.core:jackson-databind = 2.18.3
 com.squareup:javapoet = 1.13.0
 com.palantir.javapoet:javapoet = 0.7.0
-com.palantir.javaformat:* = 2.63.0
+com.palantir.javaformat:* = 2.64.0
 com.google.guava:guava = 33.4.8-jre
 org.junit.jupiter:* = 5.12.2
 org.assertj:assertj-core = 3.27.3
