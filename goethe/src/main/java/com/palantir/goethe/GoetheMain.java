@@ -26,6 +26,7 @@ final class GoetheMain {
 
     private GoetheMain() {}
 
+    @SuppressWarnings("for-rollout:SystemOut")
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
             System.err.println("Class name argument is required");

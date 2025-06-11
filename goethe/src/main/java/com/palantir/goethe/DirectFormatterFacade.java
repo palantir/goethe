@@ -45,6 +45,7 @@ final class DirectFormatterFacade implements FormatterFacade {
      * is common when generated code is incorrect and cannot compile, so we mustn't make it difficult to understand
      * the problem.
      */
+    @SuppressWarnings("for-rollout:Java8ApiChecker")
     private static String generateMessage(
             String className, String unformattedSource, List<FormatterDiagnostic> formatterDiagnostics) {
         try {

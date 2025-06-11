@@ -89,9 +89,11 @@ public final class Goethe {
      * @param file Javapoet file to format
      * @param filer Destination for the formatted file
      */
+    @SuppressWarnings("for-rollout:CatchingUnchecked")
     public static void formatAndEmit(com.palantir.javapoet.JavaFile file, Filer filer) {
         String formatted = formatAsString(file);
 
+        @SuppressWarnings("for-rollout:Var")
         JavaFileObject filerSourceFile = null;
         try {
             String className = file.packageName().isEmpty()
@@ -121,9 +123,11 @@ public final class Goethe {
      * @param file Javapoet file to format
      * @param filer Destination for the formatted file
      */
+    @SuppressWarnings("for-rollout:CatchingUnchecked")
     public static void formatAndEmit(com.squareup.javapoet.JavaFile file, Filer filer) {
         String formatted = formatAsString(file);
 
+        @SuppressWarnings("for-rollout:Var")
         JavaFileObject filerSourceFile = null;
         try {
             String className =
@@ -152,9 +156,11 @@ public final class Goethe {
      * @param className The fully qualified class name of the java file, eg. {@code com.palantir.goethe.Goethe}
      * @param source The java source code to format
      */
+    @SuppressWarnings("for-rollout:CatchingUnchecked")
     public static void formatAndEmit(String className, String source, Filer filer) {
         String formatted = formatAsString(className, source);
 
+        @SuppressWarnings("for-rollout:Var")
         JavaFileObject filerSourceFile = null;
         try {
             filerSourceFile = filer.createSourceFile(className);
@@ -180,6 +186,7 @@ public final class Goethe {
      * @param baseDir Source set root where the formatted file will be written
      * @return the new file location
      */
+    @SuppressWarnings("for-rollout:Java8ApiChecker")
     public static Path formatAndEmit(com.palantir.javapoet.JavaFile file, Path baseDir) {
         String formatted = formatAsString(file);
         try {
@@ -199,6 +206,7 @@ public final class Goethe {
      * @param baseDir Source set root where the formatted file will be written
      * @return the new file location
      */
+    @SuppressWarnings("for-rollout:Java8ApiChecker")
     public static Path formatAndEmit(com.squareup.javapoet.JavaFile file, Path baseDir) {
         String formatted = formatAsString(file);
         try {
@@ -218,6 +226,7 @@ public final class Goethe {
      * @param baseDir Source set root where the formatted file will be written
      * @return the new file location
      */
+    @SuppressWarnings("for-rollout:Java8ApiChecker")
     public static Path formatAndEmit(String className, String source, Path baseDir) {
         String formatted = formatAsString(className, source);
         try {
@@ -234,6 +243,7 @@ public final class Goethe {
      * e.g., {@code com.foo.bar.MyClass -> /<baseDir>/com/foo/bar/MyClass.java} and creates all directories.
      */
     private static Path getFilePath(Path baseDir, String packageName, String typeName) throws IOException {
+        @SuppressWarnings("for-rollout:Var")
         Path outputFile = baseDir;
         for (String component : Splitter.on('.').split(packageName)) {
             outputFile = outputFile.resolve(component);
@@ -245,6 +255,7 @@ public final class Goethe {
     }
 
     private static Path getFilePath(Path baseDir, String className) throws IOException {
+        @SuppressWarnings("for-rollout:Var")
         Path outputFile = baseDir;
         for (String component : Splitter.on('.').split(className)) {
             outputFile = outputFile.resolve(component);
