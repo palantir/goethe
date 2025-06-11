@@ -67,6 +67,7 @@ class GoetheBootstrapTest {
     @ParameterizedTest
     @MethodSource("formatterFacades")
     public void testFormatting(FormatterFacade formatter) {
+        @SuppressWarnings("for-rollout:Java8ApiChecker")
         String longWord = "a".repeat(90);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
@@ -96,6 +97,7 @@ class GoetheBootstrapTest {
     @ParameterizedTest
     @MethodSource("formatterFacades")
     public void testFormatJavadoc(FormatterFacade formatter) {
+        @SuppressWarnings("for-rollout:Java8ApiChecker")
         String longWord = "a".repeat(90);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",

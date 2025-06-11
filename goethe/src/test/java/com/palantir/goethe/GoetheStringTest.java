@@ -52,6 +52,7 @@ class GoetheStringTest {
 
     @Test
     public void testFormatting() {
+        @SuppressWarnings("for-rollout:Java8ApiChecker")
         String padding = "a".repeat(90);
         String source = unformattedClassWithCode("System.out.println(\"" + padding + "\");");
         String formatted = Goethe.formatAsString(CLASS_NAME, source);
@@ -72,6 +73,7 @@ class GoetheStringTest {
 
     @Test
     public void testFormattingToFiler() throws IOException {
+        @SuppressWarnings("for-rollout:Java8ApiChecker")
         String padding = "a".repeat(90);
         String source = unformattedClassWithCode("System.out.println(\"" + padding + "\");");
         StringWriter writer = new StringWriter();
@@ -91,6 +93,7 @@ class GoetheStringTest {
 
     @Test
     public void testFormattingToDirectory() {
+        @SuppressWarnings("for-rollout:Java8ApiChecker")
         String padding = "a".repeat(90);
         String source = unformattedClassWithCode("System.out.println(\"" + padding + "\");");
         Path location = Goethe.formatAndEmit(CLASS_NAME, source, tempDir);
@@ -101,6 +104,7 @@ class GoetheStringTest {
     }
 
     private static String unformattedClassWithCode(String code) {
+        @SuppressWarnings("for-rollout:UnnecessaryStringBuilder")
         StringBuilder builder = new StringBuilder()
                 .append("package com.palantir.foo;")
                 .append("import java.lang.System;")
