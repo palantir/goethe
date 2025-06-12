@@ -31,7 +31,6 @@ final class FormatterFacadeFactory {
     }
 
     private static boolean currentJvmHasExportArgs() {
-        @SuppressWarnings("for-rollout:Java8ApiChecker")
         List<String> arguments =
                 List.copyOf(ManagementFactory.getRuntimeMXBean().getInputArguments());
         return BootstrappingFormatterFacade.REQUIRED_EXPORTS.stream()
