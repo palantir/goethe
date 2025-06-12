@@ -61,7 +61,6 @@ class GoetheSquareTest {
 
     @Test
     public void testFormatting() {
-        @SuppressWarnings("for-rollout:Java8ApiChecker")
         String padding = "a".repeat(90);
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
@@ -90,7 +89,6 @@ class GoetheSquareTest {
 
     @Test
     public void testFormattingToFiler() throws IOException {
-        @SuppressWarnings("for-rollout:Java8ApiChecker")
         String padding = "a".repeat(90);
         Element originatingElement = Mockito.mock(Element.class);
         JavaFile javaFile = JavaFile.builder(
@@ -120,7 +118,6 @@ class GoetheSquareTest {
 
     @Test
     public void testFormattingToDirectory() {
-        @SuppressWarnings("for-rollout:Java8ApiChecker")
         JavaFile javaFile = JavaFile.builder(
                         "com.palantir.foo",
                         TypeSpec.classBuilder("Foo")

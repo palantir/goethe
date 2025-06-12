@@ -75,7 +75,6 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
         }
     }
 
-    @SuppressWarnings({"for-rollout:AndroidJdkLibsChecker", "for-rollout:Java8ApiChecker"})
     private static String getErrorOutput(Process process) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (InputStream inputStream = process.getErrorStream()) {
