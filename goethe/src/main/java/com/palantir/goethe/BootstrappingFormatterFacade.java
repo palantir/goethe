@@ -40,7 +40,6 @@ final class BootstrappingFormatterFacade implements FormatterFacade {
             .map(value -> String.format("--add-exports=%s=ALL-UNNAMED", value))
             .collect(ImmutableList.toImmutableList());
 
-    @SuppressWarnings("for-rollout:DefaultLocale")
     @Override
     public String formatSource(String className, String unformattedSource) throws GoetheException {
         try {
