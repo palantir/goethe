@@ -20,6 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 
+@SuppressWarnings("checkstyle:BanSystemErr") // this repo doesn't use safe-logging
 final class FormatterFacadeFactory {
     private FormatterFacadeFactory() {}
 
@@ -27,6 +28,9 @@ final class FormatterFacadeFactory {
         if (currentJvmHasExportArgs()) {
             return new DirectFormatterFacade();
         }
+        System.err.println("[goethe] The current JVM does not have the right JVM arguments for direct formatting. "
+                + "Falling back to equivalent but slower bootstrapping formatter. Required exports: "
+                + BootstrappingFormatterFacade.REQUIRED_EXPORTS);
         return new BootstrappingFormatterFacade();
     }
 
