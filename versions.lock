@@ -14,15 +14,15 @@ com.fasterxml.jackson.module:jackson-module-parameter-names:2.19.2 (1 constraint
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: d8120c26)
 
-com.google.errorprone:error_prone_annotations:2.36.0 (1 constraints: 4d0a49bf)
+com.google.errorprone:error_prone_annotations:2.41.0 (1 constraints: 490a3ebf)
 
 com.google.guava:failureaccess:1.0.3 (1 constraints: 160ae3b4)
 
-com.google.guava:guava:33.4.8-jre (4 constraints: df48c5e5)
+com.google.guava:guava:33.5.0-jre (4 constraints: d84895e0)
 
 com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 constraints: bd17c918)
 
-com.google.j2objc:j2objc-annotations:3.0.0 (1 constraints: 150aeab4)
+com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
 com.palantir.javaformat:palantir-java-format:2.74.0 (1 constraints: 3f05533b)
 
