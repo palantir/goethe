@@ -40,13 +40,13 @@ org.jspecify:jspecify:1.0.0 (1 constraints: 130ae0b4)
 
 [Test dependencies]
 
-net.bytebuddy:byte-buddy:1.17.6 (2 constraints: c716ff4f)
+net.bytebuddy:byte-buddy:1.17.7 (2 constraints: 9e161a3f)
 
 net.bytebuddy:byte-buddy-agent:1.17.6 (1 constraints: 490b4dde)
 
 org.apiguardian:apiguardian-api:1.1.2 (6 constraints: 5366ce6e)
 
-org.assertj:assertj-core:3.27.4 (1 constraints: 4205523b)
+org.assertj:assertj-core:3.27.5 (1 constraints: 4305533b)
 
 org.junit.jupiter:junit-jupiter:5.13.4 (1 constraints: 7e074077)
 
