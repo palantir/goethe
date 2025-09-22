@@ -4,6 +4,6 @@ com.palantir.javapoet:javapoet = 0.7.0
 com.palantir.javaformat:* = 2.74.0
 com.google.guava:guava = 33.5.0-jre
 org.junit.jupiter:* = 5.13.4
-org.assertj:assertj-core = 3.27.5
+org.assertj:assertj-core = 3.27.6
 org.junit.platform:* = 1.13.4
 org.mockito:* = 5.20.0
