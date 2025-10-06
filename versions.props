@@ -1,7 +1,7 @@
 com.fasterxml.jackson.*:* = 2.19.2
 com.squareup:javapoet = 1.13.0
 com.palantir.javapoet:javapoet = 0.7.0
-com.palantir.javaformat:* = 2.75.0
+com.palantir.javaformat:* = 2.76.0
 com.google.guava:guava = 33.5.0-jre
 org.junit.jupiter:* = 6.0.0
 org.assertj:assertj-core = 3.27.6
