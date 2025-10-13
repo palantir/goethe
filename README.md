@@ -1,3 +1,7 @@
+<p align="right">
+<a href="https://autorelease.general.dmz.palantir.tech/palantir/goethe"><img src="https://img.shields.io/badge/Perform%20an-Autorelease-success.svg" alt="Autorelease"></a>
+</p>
+
 [Goethe](https://en.wikipedia.org/wiki/Johann_Wolfgang_von_Goethe)
 ======
 
