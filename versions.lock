@@ -18,15 +18,15 @@ com.google.errorprone:error_prone_annotations:2.41.0 (1 constraints: 490a3ebf)
 
 com.google.guava:failureaccess:1.0.3 (1 constraints: 160ae3b4)
 
-com.google.guava:guava:33.5.0-jre (4 constraints: d84895e0)
+com.google.guava:guava:33.5.0-jre (4 constraints: ca48a1de)
 
 com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 constraints: bd17c918)
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.javaformat:palantir-java-format:2.82.0 (1 constraints: 3e05513b)
+com.palantir.javaformat:palantir-java-format:2.83.0 (1 constraints: 3f05543b)
 
-com.palantir.javaformat:palantir-java-format-spi:2.82.0 (2 constraints: 4c18708f)
+com.palantir.javaformat:palantir-java-format-spi:2.83.0 (2 constraints: 4e18ac8f)
 
 com.palantir.javapoet:javapoet:0.8.0 (1 constraints: 0a050336)
 
