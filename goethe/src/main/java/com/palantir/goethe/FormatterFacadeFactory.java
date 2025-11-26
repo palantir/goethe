@@ -35,27 +35,6 @@ final class FormatterFacadeFactory {
     }
 
     private static boolean currentJvmHasExportArgs() {
-        List<String> arguments =
-                List.copyOf(ManagementFactory.getRuntimeMXBean().getInputArguments());
-        return BootstrappingFormatterFacade.REQUIRED_EXPORTS.stream()
-                .allMatch(required -> hasExport(arguments, required));
-    }
-
-    @VisibleForTesting
-    static boolean hasExport(List<String> arguments, String moduleAndPackage) {
-        String singleArgAddExport = "--add-exports=" + moduleAndPackage + "=ALL-UNNAMED";
-        String multiArgAddExport = moduleAndPackage + "=ALL-UNNAMED";
-        for (int i = 0; i < arguments.size(); i++) {
-            String argument = arguments.get(i);
-            if (singleArgAddExport.equals(argument)) {
-                return true;
-            }
-            if (multiArgAddExport.equals(argument)) {
-                if (i > 0 && "--add-exports".equals(arguments.get(i - 1))) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return true;
     }
 }
