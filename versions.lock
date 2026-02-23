@@ -24,15 +24,15 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.javaformat:palantir-java-format:2.88.0 (1 constraints: 4405633b)
+com.palantir.javaformat:palantir-java-format:2.89.0 (1 constraints: 4505663b)
 
-com.palantir.javaformat:palantir-java-format-spi:2.88.0 (2 constraints: 5818d890)
+com.palantir.javaformat:palantir-java-format-spi:2.89.0 (2 constraints: 5a181491)
 
 com.palantir.javapoet:javapoet:0.11.0 (1 constraints: 3405263b)
 
 com.squareup:javapoet:1.13.0 (1 constraints: 3705323b)
 
-org.functionaljava:functionaljava:4.8 (1 constraints: 81129900)
+org.functionaljava:functionaljava:5.0 (1 constraints: 7a129400)
 
 org.jspecify:jspecify:1.0.0 (7 constraints: 5370d26f)
 
