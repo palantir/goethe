@@ -1,7 +1,7 @@
 com.fasterxml.jackson.*:* = 2.21.1
 com.fasterxml.jackson.core:jackson-annotations = 2.21
 com.squareup:javapoet = 1.13.0
-com.palantir.javapoet:javapoet = 0.11.0
+com.palantir.javapoet:javapoet = 0.12.0
 com.palantir.javaformat:* = 2.89.0
 com.google.guava:guava = 33.5.0-jre
 org.junit.jupiter:* = 6.0.3
