@@ -1,4 +1,4 @@
-com.fasterxml.jackson.*:* = 2.21.1
+com.fasterxml.jackson.*:* = 2.21.4
 com.fasterxml.jackson.core:jackson-annotations = 2.21
 com.squareup:javapoet = 1.13.0
 com.palantir.javapoet:javapoet = 0.16.0
