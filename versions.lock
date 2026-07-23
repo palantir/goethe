@@ -28,7 +28,7 @@ com.palantir.javaformat:palantir-java-format:2.96.0 (1 constraints: 4305613b)
 
 com.palantir.javaformat:palantir-java-format-spi:2.96.0 (2 constraints: 56189e90)
 
-com.palantir.javapoet:javapoet:0.17.0 (1 constraints: 3a05383b)
+com.palantir.javapoet:javapoet:0.18.0 (1 constraints: 3b053b3b)
 
 com.squareup:javapoet:1.13.0 (1 constraints: 3705323b)
 
