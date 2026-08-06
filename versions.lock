@@ -1,16 +1,16 @@
 # Run ./gradlew writeVersionsLocks to regenerate this file. Blank lines are to minimize merge conflicts.
 
-com.fasterxml.jackson.core:jackson-annotations:2.22 (4 constraints: 6341f5cb)
+com.fasterxml.jackson.core:jackson-annotations:2.22 (4 constraints: 6441f6cb)
 
-com.fasterxml.jackson.core:jackson-core:2.22.1 (5 constraints: 0e6b3217)
+com.fasterxml.jackson.core:jackson-core:2.22.1 (5 constraints: 0c6b3217)
 
-com.fasterxml.jackson.core:jackson-databind:2.22.1 (4 constraints: 88581d03)
+com.fasterxml.jackson.core:jackson-databind:2.22.1 (4 constraints: 86581d03)
 
-com.fasterxml.jackson.datatype:jackson-datatype-guava:2.22.1 (1 constraints: 85141b90)
+com.fasterxml.jackson.datatype:jackson-datatype-guava:2.22.1 (1 constraints: 83141b90)
 
-com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.22.1 (1 constraints: 0c131b39)
+com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.22.1 (1 constraints: 0a131b39)
 
-com.fasterxml.jackson.module:jackson-module-parameter-names:2.22.1 (1 constraints: 0c131b39)
+com.fasterxml.jackson.module:jackson-module-parameter-names:2.22.1 (1 constraints: 0a131b39)
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: d8120c26)
 
@@ -24,9 +24,9 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.javaformat:palantir-java-format:2.96.0 (1 constraints: 4305613b)
+com.palantir.javaformat:palantir-java-format:2.97.0 (1 constraints: 4405643b)
 
-com.palantir.javaformat:palantir-java-format-spi:2.96.0 (2 constraints: 56189e90)
+com.palantir.javaformat:palantir-java-format-spi:2.97.0 (2 constraints: 5818da90)
 
 com.palantir.javapoet:javapoet:0.18.0 (1 constraints: 3b053b3b)
 
