@@ -14,11 +14,11 @@ com.fasterxml.jackson.module:jackson-module-parameter-names:2.22.1 (1 constraint
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: d8120c26)
 
-com.google.errorprone:error_prone_annotations:2.47.0 (1 constraints: 4f0a50bf)
+com.google.errorprone:error_prone_annotations:2.50.0 (1 constraints: 490a3fbf)
 
 com.google.guava:failureaccess:1.0.3 (1 constraints: 160ae3b4)
 
-com.google.guava:guava:33.6.0-jre (4 constraints: cd48addf)
+com.google.guava:guava:33.7.0-jre (4 constraints: ce486de0)
 
 com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 constraints: bd17c918)
 
@@ -34,7 +34,7 @@ com.squareup:javapoet:1.13.0 (1 constraints: 3705323b)
 
 org.functionaljava:functionaljava:5.0 (1 constraints: 7a129400)
 
-org.jspecify:jspecify:1.0.0 (7 constraints: 5370d26f)
+org.jspecify:jspecify:1.0.1 (7 constraints: 5470f370)
 
 
 
