@@ -1,5 +1,0 @@
-type: improvement
-improvement:
-  description: Emit warning to stderr for slow formatting fallback
-  links:
-  - https://github.com/palantir/goethe/pull/737
