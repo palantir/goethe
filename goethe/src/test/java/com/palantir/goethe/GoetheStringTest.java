@@ -101,7 +101,6 @@ class GoetheStringTest {
     }
 
     private static String unformattedClassWithCode(String code) {
-        @SuppressWarnings("for-rollout:UnnecessaryStringBuilder")
         StringBuilder builder = new StringBuilder()
                 .append("package com.palantir.foo;")
                 .append("import java.lang.System;")
