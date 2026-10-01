@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Mark methods using squareup javapoet as deprecated
+  links:
+  - https://github.com/palantir/goethe/pull/559
