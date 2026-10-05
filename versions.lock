@@ -24,9 +24,9 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.javaformat:palantir-java-format:2.101.0 (1 constraints: 66059940)
+com.palantir.javaformat:palantir-java-format:2.102.0 (1 constraints: 67059c40)
 
-com.palantir.javaformat:palantir-java-format-spi:2.101.0 (2 constraints: 9c18a6b5)
+com.palantir.javaformat:palantir-java-format-spi:2.102.0 (2 constraints: 9e18e3b5)
 
 com.palantir.javapoet:javapoet:0.20.0 (1 constraints: 3405273b)
 
