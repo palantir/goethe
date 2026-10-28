@@ -2,15 +2,15 @@
 
 com.fasterxml.jackson.core:jackson-annotations:2.22 (4 constraints: 6441f6cb)
 
-com.fasterxml.jackson.core:jackson-core:2.22.4 (5 constraints: 1a6b661e)
+com.fasterxml.jackson.core:jackson-core:2.22.4 (5 constraints: 1b6b671e)
 
-com.fasterxml.jackson.core:jackson-databind:2.22.4 (4 constraints: 91586607)
+com.fasterxml.jackson.core:jackson-databind:2.22.4 (4 constraints: 92586707)
 
-com.fasterxml.jackson.datatype:jackson-datatype-guava:2.22.4 (1 constraints: 85141d90)
+com.fasterxml.jackson.datatype:jackson-datatype-guava:2.22.4 (1 constraints: 86141e90)
 
-com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.22.4 (1 constraints: 0c131d39)
+com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.22.4 (1 constraints: 0d131e39)
 
-com.fasterxml.jackson.module:jackson-module-parameter-names:2.22.4 (1 constraints: 0c131d39)
+com.fasterxml.jackson.module:jackson-module-parameter-names:2.22.4 (1 constraints: 0d131e39)
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: d8120c26)
 
@@ -24,9 +24,9 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.javaformat:palantir-java-format:2.102.0 (1 constraints: 67059c40)
+com.palantir.javaformat:palantir-java-format:2.103.0 (1 constraints: 68059f40)
 
-com.palantir.javaformat:palantir-java-format-spi:2.102.0 (2 constraints: 9e18e3b5)
+com.palantir.javaformat:palantir-java-format-spi:2.103.0 (2 constraints: a01820b6)
 
 com.palantir.javapoet:javapoet:0.22.0 (1 constraints: 36052d3b)
 
