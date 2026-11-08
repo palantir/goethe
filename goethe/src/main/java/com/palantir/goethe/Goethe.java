@@ -60,7 +60,9 @@ public final class Goethe {
      *
      * @param file Javapoet file to format
      * @return Formatted source code
+     * @deprecated Use {@link #formatAsString(com.palantir.javapoet.JavaFile)} instead.
      */
+    @Deprecated
     public static String formatAsString(com.squareup.javapoet.JavaFile file) {
         StringBuilder rawSource = new StringBuilder();
         try {
@@ -120,7 +122,9 @@ public final class Goethe {
      *
      * @param file Javapoet file to format
      * @param filer Destination for the formatted file
+     * @deprecated Use {@link #formatAndEmit(com.palantir.javapoet.JavaFile, Filer)} instead.
      */
+    @Deprecated
     public static void formatAndEmit(com.squareup.javapoet.JavaFile file, Filer filer) {
         String formatted = formatAsString(file);
 
@@ -198,7 +202,9 @@ public final class Goethe {
      * @param file Javapoet file to format
      * @param baseDir Source set root where the formatted file will be written
      * @return the new file location
+     * @deprecated Use {@link #formatAndEmit(com.palantir.javapoet.JavaFile, Path)} instead.
      */
+    @Deprecated
     public static Path formatAndEmit(com.squareup.javapoet.JavaFile file, Path baseDir) {
         String formatted = formatAsString(file);
         try {
